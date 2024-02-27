@@ -5,11 +5,11 @@
         <h1>{{ product.prodName }}</h1>
         <div>
           <img :src="product.prodUrl" :alt="product.prodName" loading="lazy" class="img-fluid" id="image" />
-          <p>Category: {{ product.category }}</p>
-          <div id="description">
-            Description: {{ product.prodDesc }}
+          <p>Category: {{ product.Category }}</p>
+          <div id="quantity">
+            Description: {{ product.quantity }}
           </div>
-          <p>Price: R{{ product.price }}</p>
+          <p>Price: R{{ product.amount }}</p>
         </div>
       </div>
       <div v-else>

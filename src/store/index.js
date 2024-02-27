@@ -1,16 +1,18 @@
 import { createStore } from "vuex";
 import axios from "axios";
-const hostedDB = "https://nodedb-1.onrender.com/";
+
+const DB = "https://nodedb-1.onrender.com/";
 
 export default createStore({
   state: {
-    users: "",
-    user: "",
-    selectedProduct: "",
-    products: "",
-    product: "",
-    spinner: "",
-    token: "",
+    users: null,
+    user: null,
+    selectedProduct: null,
+    products: null,
+    product: null,
+    spinner: null,
+    token: null,
+    msg: null,
   },
   getters: {},
   mutations: {
@@ -26,101 +28,135 @@ export default createStore({
     setProduct(state, product) {
       state.product = product;
     },
- 
+    setSelectedProduct(state, product) {
+      state.selectedProduct = product;
+    },
+    setSpinner(state, value) { 
+      state.spinner = value;
+    },
+    setToken(state, token) {
+      state.token = token;
+    },
+    setMsg(state, msg) {
+      state.msg = msg;
+    }
   },
   actions: {
-    // fetching users
-    async fetchUsers({commit}) {
+    async fetchUsers({ commit }) {
       try {
-        const res= await axios.get(`${hostedDB}users`);
+        const res = await axios.get(`${DB}users`);
         commit("setUsers", res.data);
-      } catch (error) {
-        console.error("An error occurred while fetching users:", error);
+      } catch (e) {
+        alert("Request Failed! Could not retrieve all users!");
       }
     },
-    // fetching products
-    async fetchProducts({commit}) {
+    async fetchUser({ commit }) {
       try {
-        const res = await axios.get(`${hostedDB}products`);
+        const res = await axios.get(`${DB}user`);
+        commit("setUser", res.data);
+      } catch (e) {
+        alert("Request Failed: Could not retrieve user!");
+      }
+    },
+    async fetchProducts({ commit }) {
+      try {
+        const res = await axios.get(`${DB}products`);
         commit("setProducts", res.data);
-      } catch (error) {
-        console.error("An error occurred while fetching products:", error);
+      } catch (e) {
+        alert("Request Failed: Could not retrieve products from the database.");
       }
     },
-    // registering a new user
-    async register({commit}, payload) {
+    async fetchProduct({ commit }) {
       try {
-        const res = await axios.post(`${hostedDB}users`, payload);
-        const { msg, err } = res.data;
-        if (err) {
-          console.error("An error occurred:", err);
-        } else {
+        const res = await axios.get(`${DB}product`);
+        commit("setProduct", res.data);
+      } catch (e) {
+        alert("Requested Failed: Could not fetch product.");
+      }
+    },
+    async register({ commit }, payload) {
+      try {
+        const res = await axios.post(`${DB}users`, payload);
+        const { msg } = await res.data;
+        if (msg) {
           commit.dispatch("fetchUsers");
           commit("setUser", msg);
         }
-      } catch (error) {
-        console.error("An error occurred during registration:", error);
+      } catch (e) {
+        alert("Request Failed: Could not register user.");
       }
     },
-    // updating an existing user
-    async updateUser(context, payload) {
+    async updateUser({ commit }, payload) {
       try {
-        const res = await axios.patch(`${hostedDB}users/${payload.userID}`, payload.data);
+        const res = await axios.patch(`${DB}users/${payload.userID}`, payload.data);
         if (res.data.msg) {
-          context.dispatch("fetchUsers");
-          await window.location.reload()
+          commit.dispatch("fetchUsers");
+          commit("setUser", res.data.msg);
         }
-      } catch (error) {
-        console.error("An error occurred while updating user:", error);
+      } catch (e) {
+        console.error(e);
+        alert("Request Failed: An error occurred while trying to update the user.");
       }
     },
-    // deleting a user
-    async deleteUser(context, id) {
+    async deleteUser({ commit }, id) {
       try {
-        const res = await axios.delete(`${hostedDB}users/${id}`);
+        const res = await axios.delete(`${DB}users/${id}`);
         if (res.data.msg) {
-          context.dispatch("fetchUsers");
+          commit("fetchUsers");
+          commit("setUser", res.data.msg);
           console.log("User deleted successfully");
-          await window.location.reload()
         }
-      } catch (error) {
-        console.error("An error occurred while deleting user:", error);
+      } catch (e) {
+        console.error(e);
+        alert("Request Failed: An error occurred while deleting user.");
       }
     },
-    // adding a new product
-    async addProduct({commit}, newProduct) {
+    async createProduct({ commit }, payload) {
       try {
-        const res = await axios.post(`${hostedDB}products`, newProduct);
-        commit("setProducts", res.data)
-         awaitwindow.location.reload()
-      } catch (error) {
-        console.error("An error occurred while creating product:", error);
-      }
-    },
-    // updating an existing product
-    async updateProduct(context, payload) {
-      try {
-        const res = await axios.patch(`${hostedDB}products/${payload.prodID}`, payload);
-        context.commit("setProduct", res.data);
-        window.location.reload()
-      } catch (error) {
-        console.error("An error occurred while updating product:", error);
-      }
-    },
-    // deleting a product
-    async deleteProduct(context, prodID) {
-      try {
-        const res = await axios.delete(`${hostedDB}products/${prodID}`);
-        window.location.reload()
+        const res = await axios.post(`${DB}products`, payload);
         if (res.data.msg) {
-          context.commit("setProduct", res.data.msg);
+          commit.dispatch("fetchProducts");
+          commit("setProduct", res.data.msg);
+          commit("setSpinner", false);
         } else {
-          console.error("An error occurred while deleting product:", res.data.err);
+          commit("setSpinner", false);
+        }
+      } catch (e) {
+        console.error(e);
+        alert("Request Failed: An error occurred while adding a new product.");
+      }
+    },
+    async updateProduct({ commit }, payload) {
+      try {
+        const res = await axios.patch(`${DB}products/${payload.prodID}`, payload);
+        if (res) {
+          console.log("Product updated successfully.");
+          commit.dispatch("fetchProducts");
+          blurt("Successfully updated product!");
+        } else {
+          throw new Error("Failed to update product: " + res.statusText);
         }
       } catch (error) {
-        console.error("An error occurred while deleting product:", error);
+        console.error("An error occurred:", error);
+        alert("An error occurred: " + error.message);
       }
-    }
-  },  
-  modules: {},
-});
+    },
+    async deleteProduct({ commit }, prodID) {
+      try {
+        const res = await axios.delete(`${DB}products/${prodID}`);
+        if (res) {
+          commit.dispatch("fetchProducts");
+          commit("setProduct", res);
+          commit("setSpinner", false);
+        } else {
+          alert("An error occurred while deleting the product");
+        }
+      } catch (e) {
+        alert("An error occurred while deleting the product");
+      }
+    },
+  },
+  modules: {
+
+  }
+})

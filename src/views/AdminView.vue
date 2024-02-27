@@ -13,6 +13,7 @@
               <th>Gender</th>
               <th>Role</th>
               <th>Email address</th>
+              <th>Profile</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -25,6 +26,7 @@
               <td>{{ user.gender }}</td>
               <td>{{ user.userRole }}</td>
               <td>{{ user.emailAdd }}</td>
+              <td>{{ user.userProfile }}</td>
               <td>
                 <updateUser :user="user"/><button class="btn" @click="deleteUser(user.userID)">Delete</button>
               </td>
@@ -60,18 +62,15 @@
                 <td>{{ product.prodID }}</td>
                 <td>{{ product.prodName }}</td>
                 <td>{{ product.quantity }}</td>
-                <td>R {{ product.amount }}</td>
+              <td>R {{ product.amount }}</td>
                 <td>{{ product.Category }}</td>
-                <td>
-                    <img :src="product.prodUrl" :alt="product.prodUrl" class="img-fluid image" loading="lazy"/>
-                </td>
-                <td>
-                  <updateProduct :product="product" />
+                <td><img :src="product.prodUrl" :alt="product.prodUrl" class="img-fluid image" loading="lazy"/></td>
+                <td><updateProduct :product="product"/>
                   <button @click="deleteProduct(product.prodID)" class="btn">Delete</button>
                 </td>
               </tr>
               <tr v-else>
-                <Spinner />
+                <Spinner/>
               </tr>
             </tbody>
           </table>
@@ -81,11 +80,13 @@
   </template>
   
   <script>
+  
   import Spinner from "../components/SpinnerComp.vue";
   import addProduct from "../components/AddProduct.vue";
   import addUser from "../components/AddUser.vue";
   import updateProduct from "../components/UpdateProduct.vue";
   import updateUser from "@/components/UpdateUser.vue";
+
   export default {
     components: {
       Spinner,
@@ -135,8 +136,7 @@
       deleteProduct(prodID) {
         if (confirm("Are you sure you want to delete this product?")) {
           this.$store.dispatch("deleteProduct", prodID);
-          setTimeout(() => {
-            location.reload();
+          setTimeout(() => {location.reload();
           }, 500);
         }
       },
@@ -144,15 +144,13 @@
         this.sortBy = "prodID";
       },
       toggleSortDirection() {
-        console.log("reached");
         this.sortBy = 'name'
         this.sort = this.sort === "asc" ? "desc" : "asc";
       },
       deleteUser(userID) {
         if (confirm("Are you sure you want to delete this user?")) {
           this.$store.dispatch("deleteUser", userID);
-          setTimeout(() => {
-            location.reload();
+          setTimeout(() => {location.reload();
           }, 500);
         }
       },
@@ -162,15 +160,12 @@
   
   <style scoped>
   .image {
-    width: 5rem;
+    width: 4rem;
   }
-  .table {
-    background-color: #f7f4f1;
-  }
-  
+
   .sort-dropdown{
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
   }
   
   .btn {
