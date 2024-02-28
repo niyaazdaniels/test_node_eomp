@@ -62,17 +62,15 @@
           filter = filter.filter(product => product.prodName.toLowerCase().includes(this.searchProducts.toLowerCase()) || 
           product.Category.toLowerCase().includes(this.searchProducts.toLowerCase()))
         }
-        if(this.sortBy === 'amount'){
-          filter = filter.sort((a, b)=> (this.sort === 'asc' ? a.amount - b.amount : b.amount - a.amount))
+        if(this.sortBy === 'price'){
+          filter = filter.sort((a, b)=> (this.sort === 'asc' ? a.price - b.price : b.price - a.price))
         } else if(this.sortBy === 'Category'){
           filter = filter.sort((a, b)=> a.Category.localeCompare(b.Category) * (this.sort === 'asc' ? 1 : -1))
         } else if(this.sortBy === 'alphabetical'){
           filter = filter.sort((a, b)=> a.prodName.localeCompare(b.prodName) * (this.sort === 'asc' ? 1 : -1))
         }
-  
         return filter
       },
-  
     },
     mounted() {
       this.$store.dispatch("fetchProducts");
@@ -93,7 +91,7 @@
           (product) => product.prodID === prodID
         );
         this.$store.commit("setSelectedProduct", selectedItem);
-        this.$router.push({ name: "CardComp.vue", params: { prodID: prodID }});
+        this.$router.push({ name: "ProductsView", params: { prodID: prodID }});
       }
     },
     data() {

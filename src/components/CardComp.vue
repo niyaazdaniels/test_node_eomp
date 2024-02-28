@@ -3,12 +3,9 @@
     <div class="card" id="card">
       <div v-if="product">
         <h1>{{ product.prodName }}</h1>
-        <div>
-          <img :src="product.prodUrl" :alt="product.prodName" loading="lazy" class="img-fluid" id="image" />
+        <div><img :src="product.prodUrl" :alt="product.prodName" loading="lazy" class="img-fluid" id="image"/>
           <p>Category: {{ product.Category }}</p>
-          <div id="quantity">
-            Description: {{ product.quantity }}
-          </div>
+          <div id="quantity">Quantity: {{ product.quantity }}</div>
           <p>Price: R{{ product.amount }}</p>
         </div>
       </div>

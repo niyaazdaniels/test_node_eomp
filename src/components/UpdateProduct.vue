@@ -4,7 +4,7 @@
     <button type="button" class="btn" @click="openEditModal(product.prodID)" data-bs-toggle="modal" :data-bs-target="'#exampleModal' + product.prodID">Edit</button>
 
     <!-- Modal -->
-    <div class="modal fade" :id="'exampleModal' + product.prodID" tabindex="-1" :aria-labelledby="'exampleModalLabel' + product.prodID" aria-hidden="true">
+    <div class="modal fade" :id="'exampleModal' + product.prodID" tabindex="-1" :aria-labelledby="'exampleModalLabel'" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">

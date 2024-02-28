@@ -32,7 +32,7 @@
               </td>
             </tr>
             <tr v-else>
-              <Spinner />
+              <SpinnerComp />
             </tr>
           </tbody>
         </table>
@@ -40,7 +40,7 @@
       <div>
         <h1>Products</h1>
         <div class="sort-dropdown">
-          <button class="btn" @click="toggleSortDirection">Filter by: {{ sort === "asc" ? "ascending" : "descending " }}</button>
+          <button class="btn" @click="toggleSortDirection">Filter by Name: {{ sort === "asc" ? "Ascending" : "Descending " }}</button>
           <button class="btn" @click="refresh">Refresh</button>
         </div>
         <addProduct />
@@ -70,7 +70,7 @@
                 </td>
               </tr>
               <tr v-else>
-                <Spinner/>
+                <SpinnerComp/>
               </tr>
             </tbody>
           </table>
@@ -81,7 +81,7 @@
   
   <script>
   
-  import Spinner from "../components/SpinnerComp.vue";
+  import SpinnerComp from "../components/SpinnerComp.vue";
   import addProduct from "../components/AddProduct.vue";
   import addUser from "../components/AddUser.vue";
   import updateProduct from "../components/UpdateProduct.vue";
@@ -89,7 +89,7 @@
 
   export default {
     components: {
-      Spinner,
+      SpinnerComp,
       addProduct,
       addUser,
       updateProduct,
@@ -170,7 +170,8 @@
   
   .btn {
     border: 2px solid #f7f4f1;
-    background-color: #f7f4f1;
+    background-color: #717171;
+    color: white;
     margin-bottom: 1rem;
   }
   
