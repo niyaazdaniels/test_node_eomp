@@ -1,10 +1,10 @@
 <template>
   <div>
     <!-- Button trigger modal -->
-    <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal3">Add User</button>
+    <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">Add User</button>
 
     <!-- Modal -->
-    <div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModal3Label" aria-hidden="true">
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -31,7 +31,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn" @click="createUser">Save changes</button>
+            <button type="button" class="btn" @click="createNewUser">Save changes</button>
           </div>
         </div>
       </div>
@@ -59,8 +59,8 @@ export default {
     };
   },
   methods: {
-    createUser() {
-      this.$store.dispatch("register", this.model.user);
+    createNewUser() {
+      this.$store.dispatch("registerNewUser", this.model.user);
       console.log(this.model.user);
     },
   },

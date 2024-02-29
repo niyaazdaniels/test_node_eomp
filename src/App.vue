@@ -1,4 +1,5 @@
 <template>
+  
   <nav>
     <router-link to="/">Home</router-link> |
     <router-link to="/about">About</router-link> |
@@ -9,6 +10,8 @@
 </template>
 
 <style>
+
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -29,4 +32,22 @@ nav a {
 nav a.router-link-exact-active {
   color: #42b983;
 }
+.shadows-into light-regular {
+  font-family: "Shadows Into Light", cursive;
+  font-weight: 400;
+  font-style: normal;
+}
+.kaushan-script-regular {
+  font-family: "Kaushan Script", cursive;
+  font-weight: 400;
+  font-style: normal;
+}
+
+body {
+  font-family: "Kaushan Script", cursive;
+  font-weight: 400;
+  font-style: normal;
+
+}
+
 </style>

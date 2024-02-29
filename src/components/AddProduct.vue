@@ -1,10 +1,10 @@
 <template>
   <div>
     <!-- Button trigger modal -->
-    <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal1">Add Product</button>
+    <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">Add Product</button>
 
     <!-- Modal -->
-    <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModal1Label" aria-hidden="true">
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -17,15 +17,15 @@
             <label for="quantity">Quantity:</label>
             <input required id="quantity" placeholder="quantity" type="number" autocomplete="off" v-model="model.product.quantity"/>
             <label for="price">Price:</label>
-            <input required id="price" placeholder="price" type="number" autocomplete="off" v-model="model.product.price"/>
+            <input required id="price" placeholder="price" type="number" autocomplete="off" v-model="model.product.amount"/>
             <label for="category">Category</label>
-            <input required id="category" placeholder="category" type="text" autocomplete="off" v-model="model.product.category"/>
+            <input required id="category" placeholder="category" type="text" autocomplete="off" v-model="model.product.Category"/>
             <label for="productUrl">Product Image:</label>
             <input required id="productUrl" placeholder="product image" type="text" autocomplete="off" v-model="model.product.prodUrl"/>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn" @click="createProduct">Save changes</button>
+            <button type="button" class="btn" @click="addProduct">Save changes</button>
           </div>
         </div>
       </div>
@@ -41,16 +41,16 @@ export default {
         product: {
           prodName: "",
           quantity: "",
-          price: "",
-          category: "",
+          amount: "",
+          Category: "",
           prodUrl: "",
         },
       },
     };
   },
   methods: {
-    createProduct() {
-      this.$store.dispatch("createProduct", this.model.product);
+    addProduct() {
+      this.$store.dispatch("addProduct", this.model.product);
     },
   },
 };
